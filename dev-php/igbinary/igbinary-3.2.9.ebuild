@@ -16,10 +16,10 @@ HOMEPAGE="https://github.com/igbinary/igbinary"
 SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 DEPEND="
-        php_targets_php7-4? ( !dev-php/igbinary:0[php_targets_php7-4] )
-        php_targets_php8-0? ( !dev-php/igbinary:0[php_targets_php8-0] )
-        php_targets_php8-1? ( !dev-php/igbinary:0[php_targets_php8-1] )
-        php_targets_php8-2? ( !dev-php/igbinary:0[php_targets_php8-2] )
+        php_targets_php7-4? ( !!dev-php/igbinary:0[php_targets_php7-4] )
+        php_targets_php8-0? ( !!dev-php/igbinary:0[php_targets_php8-0] )
+        php_targets_php8-1? ( !!dev-php/igbinary:0[php_targets_php8-1] )
+        php_targets_php8-2? ( !!dev-php/igbinary:0[php_targets_php8-2] )
 "
 
 LICENSE="BSD"

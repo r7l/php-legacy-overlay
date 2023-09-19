@@ -33,9 +33,9 @@ RESTRICT="test"
 
 DEPEND=""
 RDEPEND="${DEPEND} 
-	php_targets_php7-4? ( !dev-php/xdebug:0[php_targets_php7-4] )
-	php_targets_php8-0? ( !dev-php/xdebug:0[php_targets_php8-0] )
-	php_targets_php8-1? ( !dev-php/xdebug:0[php_targets_php8-1] )
+	php_targets_php7-4? ( !!dev-php/xdebug:0[php_targets_php7-4] )
+	php_targets_php8-0? ( !!dev-php/xdebug:0[php_targets_php8-0] )
+	php_targets_php8-1? ( !!dev-php/xdebug:0[php_targets_php8-1] )
 	"
 DOCS=( README.rst CREDITS )
 PHP_EXT_ECONF_ARGS=()
