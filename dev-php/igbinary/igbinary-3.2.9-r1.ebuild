@@ -7,7 +7,7 @@ PHP_EXT_ECONF_ARGS=( --enable-${PN} )
 PHP_EXT_INI="yes"
 PHP_EXT_NAME="${PN}"
 PHP_EXT_ZENDEXT="no"
-USE_PHP="php7-4 php8-0 php8-1 php8-2"
+USE_PHP="php7-4 php8-0"
 
 inherit php-ext-source-r3
 
@@ -18,8 +18,6 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 DEPEND="
         php_targets_php7-4? ( !!dev-php/igbinary:0[php_targets_php7-4] )
         php_targets_php8-0? ( !!dev-php/igbinary:0[php_targets_php8-0] )
-        php_targets_php8-1? ( !!dev-php/igbinary:0[php_targets_php8-1] )
-        php_targets_php8-2? ( !!dev-php/igbinary:0[php_targets_php8-2] )
 "
 
 LICENSE="BSD"
