@@ -1,0 +1,4 @@
+# Ferdinand Kuhl <f.kuhl@digital-competence.de> (2023-10-05)
+# PHP 5.6 and 7.4 are REALLY old and unmaintained
+dev-lang/php:5.6
+dev-lang/php:7.4
