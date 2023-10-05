@@ -473,6 +473,8 @@ src_configure() {
 	# Changed order to run it in reverse for bug #32022 and #12021.
 	replace-cpu-flags "k6*" "i586"
 
+	use ssl-compat && append-flags "-I/usr/include/openssl-1.1.1u/" "-fno-stack-protector"
+
 	# Cache the ./configure test results between SAPIs.
 	our_conf+=( --cache-file="${T}/config.cache" )
 
@@ -528,7 +530,6 @@ src_configure() {
 		# Construct the $myeconfargs array by concatenating $our_conf
 		# (the common args) and $sapi_conf (the SAPI-specific args).
 		local myeconfargs=( "${our_conf[@]}" )
-		CFLAGS=-I/usr/include/openssl-1.1.1u/
 		myeconfargs+=( "${sapi_conf[@]}" )
 
 		pushd "${BUILD_DIR}" > /dev/null || die
