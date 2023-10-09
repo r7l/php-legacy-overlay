@@ -22,13 +22,14 @@ RESTRICT="!test? ( test )"
 
 # imagemagick[-openmp] is needed wrt bug 547922 and upstream
 # https://github.com/Imagick/imagick#openmp
-RDEPEND="media-gfx/imagemagick:=[-openmp]"
+RDEPEND="media-gfx/imagemagick:=[-openmp]
+	php_targets_php7-4? ( !dev-php/pecl-imagick:0[php_targets_php7-4] )
+        php_targets_php8-0? ( !dev-php/pecl-imagick:0[php_targets_php8-0] )
+        php_targets_php8-1? ( !dev-php/pecl-imagick:0[php_targets_php8-1] )
+        php_targets_php8-2? ( !dev-php/pecl-imagick:0[php_targets_php8-2] )
+"
 DEPEND="${RDEPEND}
 	test? ( media-gfx/imagemagick:=[hdri,jpeg,png,svg,truetype,xml] )
-	php_targets_php7-4? ( !!dev-php/pecl-imagick:0[php_targets_php7-4] )
-        php_targets_php8-0? ( !!dev-php/pecl-imagick:0[php_targets_php8-0] )
-        php_targets_php8-1? ( !!dev-php/pecl-imagick:0[php_targets_php8-1] )
-        php_targets_php8-2? ( !!dev-php/pecl-imagick:0[php_targets_php8-2] )
 "
 
 PHP_EXT_ECONF_ARGS="--with-imagick=${EPREFIX}/usr"
