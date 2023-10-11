@@ -5,7 +5,7 @@ EAPI=8
 PHP_EXT_NAME="memcached"
 DOCS=( ChangeLog README.markdown )
 
-USE_PHP="php7-4 php8-0 php8-1"
+USE_PHP="php7-4 php8-0 php8-1 php8-2"
 PHP_EXT_NEEDED_USE="json(+)?,session(-)?"
 MY_P="${PN/pecl-/}-${PV/_rc/RC}"
 PHP_EXT_PECL_FILENAME="${MY_P}.tgz"
@@ -23,10 +23,14 @@ RESTRICT="!test? ( test )"
 
 COMMON_DEPEND="|| ( dev-libs/libmemcached-awesome[sasl(-)?] >=dev-libs/libmemcached-1.0.14[sasl(-)?] )
 	sys-libs/zlib
-	igbinary? ( dev-php/igbinary[php_targets_php7-4(-)?,php_targets_php8-0(-)?,php_targets_php8-1(-)?] )
+	igbinary? ( dev-php/igbinary[php_targets_php7-4(-)?,php_targets_php8-0(-)?,php_targets_php8-1(-)?,php_targets_php8-2(-)?] )
 "
 DEPEND="${COMMON_DEPEND}"
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="${COMMON_DEPEND}
+	php_targets_php7-4? ( !dev-php/pecl-memcached:0[php_targets_php7-4] )
+	php_targets_php8-0? ( !dev-php/pecl-memcached:0[php_targets_php8-0] )
+	php_targets_php8-1? ( !dev-php/pecl-memcached:0[php_targets_php8-1] )
+	php_targets_php8-2? ( !dev-php/pecl-memcached:0[php_targets_php8-2] )"
 BDEPEND="${COMMON_DEPEND} test? ( net-misc/memcached )"
 
 S="${WORKDIR}/${MY_P}"
