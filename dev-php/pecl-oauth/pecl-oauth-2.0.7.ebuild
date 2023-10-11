@@ -14,7 +14,7 @@ KEYWORDS="~amd64 ~x86"
 
 DESCRIPTION="OAuth is an authorization protocol built on top of HTTP"
 LICENSE="BSD"
-SLOT="7"
+SLOT="legacy"
 IUSE="+curl examples"
 
 DEPEND="
