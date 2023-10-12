@@ -13,7 +13,7 @@ inherit php-ext-pecl-r3
 DESCRIPTION="Stripped down version of APC supporting only user cache"
 
 LICENSE="PHP-3.01"
-SLOT="7"
+SLOT="legacy"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 LOCKS="pthreadmutex pthreadrw spinlock semaphore"
@@ -25,6 +25,13 @@ IUSE="+mmap ${LUSE/lock-pthreadrw/+lock-pthreadrw}"
 REQUIRED_USE="^^ ( $LUSE )"
 
 DOCS=( NOTICE README.md TECHNOTES.txt )
+
+DEPEND=""
+RDEPEND="${DEPEND}
+	php_targets_php7-4? ( !dev-php/pecl-apcu:0[php_targets_php7-4] )
+	php_targets_php8-0? ( !dev-php/pecl-apcu:0[php_targets_php8-0] )
+	php_targets_php8-1? ( !dev-php/pecl-apcu:0[php_targets_php8-1] )
+	php_targets_php8-2? ( !dev-php/pecl-apcu:0[php_targets_php8-2] )"
 
 src_configure() {
 	local PHP_EXT_ECONF_ARGS=(
