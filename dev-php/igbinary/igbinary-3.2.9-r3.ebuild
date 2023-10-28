@@ -19,7 +19,7 @@ DEPEND="
         php_targets_php7-4? ( !dev-php/igbinary:0[php_targets_php7-4] )
         php_targets_php8-0? ( !dev-php/igbinary:0[php_targets_php8-0] )
 "
-RDEPEND="${RDEPEND}"
+RDEPEND="${DEPEND}"
 
 LICENSE="BSD"
 SLOT="legacy"
