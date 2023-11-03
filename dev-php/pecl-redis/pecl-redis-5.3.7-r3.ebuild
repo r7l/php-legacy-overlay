@@ -16,7 +16,7 @@ inherit php-ext-pecl-r3
 DESCRIPTION="PHP extension for interfacing with Redis"
 LICENSE="PHP-3.01"
 SLOT="legacy"
-KEYWORDS="~amd64 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="igbinary +json lz4 +session zstd"
 
 DEPEND="
