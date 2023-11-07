@@ -10,7 +10,7 @@ USE_PHP="php7-4 php8-0 php8-1 php8-2"
 
 inherit php-ext-pecl-r3
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 DESCRIPTION="OAuth is an authorization protocol built on top of HTTP"
 LICENSE="BSD"
