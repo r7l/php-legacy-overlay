@@ -17,7 +17,7 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 
 inherit php-ext-source-r3
 
-KEYWORDS="~amd64 ~hppa ~ppc ~ppc64 ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 DESCRIPTION="A PHP debugging and profiling extension"
 HOMEPAGE="https://xdebug.org/"
@@ -32,7 +32,7 @@ IUSE=""
 RESTRICT="test"
 
 DEPEND=""
-RDEPEND="${DEPEND} 
+RDEPEND="${DEPEND}
 	php_targets_php7-4? ( !!dev-php/xdebug:0[php_targets_php7-4] )
 	php_targets_php8-0? ( !!dev-php/xdebug:0[php_targets_php8-0] )
 	php_targets_php8-1? ( !!dev-php/xdebug:0[php_targets_php8-1] )
