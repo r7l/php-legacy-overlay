@@ -138,10 +138,10 @@ RDEPEND="${COMMON_DEPEND}
 
 DEPEND="${COMMON_DEPEND}
 	app-arch/xz-utils
+	>=dev-build/libtool-1.5.18
 	>=sys-devel/bison-3.0.1
 	sys-devel/flex
-	>=sys-devel/m4-1.4.3
-	>=sys-devel/libtool-1.5.18"
+	>=sys-devel/m4-1.4.3"
 
 # Without USE=readline or libedit, the interactive "php -a" CLI will hang.
 REQUIRED_USE="
