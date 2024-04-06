@@ -1,0 +1,17 @@
+dev-php/igbinary:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+dev-php/pecl-acpu:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+dev-php/pecl-imagick:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+dev-php/pecl-memcached:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+dev-php/pecl-oauth:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+dev-php/pecl-redis:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+dev-php/pecl-uploadprogress:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+dev-php/xdebug:legacy php_targets_php8-1 php_targets_php8-2 -php_targets_php8-0 -php_targets_php7-4 -php_targets_php5-6
+
+dev-php/igbinary:0 php_targets_php7-4 php_targets_php5-6
+dev-php/pecl-acpu:0 php_targets_php7-4 php_targets_php5-6
+dev-php/pecl-imagick:0 php_targets_php7-4 php_targets_php5-6
+dev-php/pecl-memcached:0 php_targets_php7-4 php_targets_php5-6
+dev-php/pecl-oauth:0 php_targets_php7-4 php_targets_php5-6
+dev-php/pecl-redis:0 php_targets_php7-4 php_targets_php5-6
+dev-php/pecl-uploadprogress:0 php_targets_php7-4 php_targets_php5-6
+dev-php/xdebug:0 php_targets_php7-4 php_targets_php5-6
