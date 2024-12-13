@@ -4,9 +4,8 @@
 EAPI=8
 
 PHP_EXT_NAME="redis"
-USE_PHP="php7-4 php8-0"
+USE_PHP="php8-1 php8-2 php8-3"
 PHP_EXT_NEEDED_USE="json(+)?,session(-)?"
-DOCS=( arrays.markdown cluster.markdown README.markdown CREDITS )
 MY_P="${PN/pecl-/}-${PV/_rc/RC}"
 PHP_EXT_PECL_FILENAME="${MY_P}.tgz"
 PHP_EXT_S="${WORKDIR}/${MY_P}"
@@ -15,14 +14,12 @@ inherit php-ext-pecl-r3
 
 DESCRIPTION="PHP extension for interfacing with Redis"
 LICENSE="PHP-3.01"
-SLOT="legacy"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+SLOT="0"
+KEYWORDS="~amd64 ~arm ~arm64"
 IUSE="igbinary +json lz4 +session zstd"
 
 DEPEND="
-	igbinary? ( >=dev-php/igbinary-3.0.1-r1:*[php_targets_php7-4(-)?,php_targets_php8-0(-)?] )
-	php_targets_php7-4? ( !dev-php/pecl-redis:0[php_targets_php7-4] )
-	php_targets_php8-0? ( !dev-php/pecl-redis:0[php_targets_php8-0] )
+	igbinary? ( >=dev-php/igbinary-3.0.1-r1[php_targets_php8-1(-)?,php_targets_php8-2(-)?,php_targets_php8-3(-)?] )
 	lz4? ( app-arch/lz4:= )
 	zstd? ( app-arch/zstd:= )
 "
