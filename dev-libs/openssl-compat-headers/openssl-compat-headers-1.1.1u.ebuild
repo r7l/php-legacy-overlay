@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -24,7 +24,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	!=dev-libs/openssl-1.1.1*:0
 	tls-compression? ( >=sys-libs/zlib-1.2.8-r1[static-libs(+)?,${MULTILIB_USEDEP}] )
-	>=dev-libs/openssl-compat-1.1.1[asm=,rfc3779=,sctp=,cpu_flags_x86_sse2=,sslv3=,static-libs=,test=,tls-compression=,tls-heartbeat=,vanilla=,verify-sig=,weak-ssl-ciphers=]
+	>=dev-libs/openssl-compat-1.1.1[asm=,rfc3779=,sctp=,cpu_flags_x86_sse2=,sslv3=,static-libs=,test=,tls-compression=,tls-heartbeat=,vanilla=,weak-ssl-ciphers=]
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
