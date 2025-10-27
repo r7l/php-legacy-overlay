@@ -3,7 +3,7 @@ diff '--color=auto' -aurN a/ext/intl/config.m4 b/ext/intl/config.m4
 +++ b/ext/intl/config.m4	2024-07-17 18:54:29.506419432 -0400
 @@ -85,7 +85,16 @@
      breakiterator/codepointiterator_methods.cpp"
-
+ 
    PHP_REQUIRE_CXX()
 -  PHP_CXX_COMPILE_STDCXX(11, mandatory, PHP_INTL_STDCXX)
 +

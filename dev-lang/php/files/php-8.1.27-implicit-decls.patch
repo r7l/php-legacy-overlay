@@ -67,5 +67,6 @@ index ac57c81e..b8044bf2 100644
  int main() {
    printf("%d", _libiconv_version);
    return 0;
---
+-- 
 2.43.0
+

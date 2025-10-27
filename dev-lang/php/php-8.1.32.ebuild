@@ -1,13 +1,12 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="8"
+EAPI=8
 
 WANT_AUTOMAKE="none"
 
-inherit flag-o-matic systemd autotools
+inherit flag-o-matic multilib systemd autotools
 
-MY_PV=${PV/_rc/RC}
 DESCRIPTION="The PHP language runtime engine"
 HOMEPAGE="https://www.php.net/"
 SRC_URI="https://www.php.net/distributions/${P}.tar.xz"
@@ -23,8 +22,6 @@ LICENSE="PHP-3.01
 SLOT="$(ver_cut 1-2)"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
-S="${WORKDIR}/${PN}-${MY_PV}"
-
 # We can build the following SAPIs in the given order
 SAPIS="embed cli cgi fpm apache2 phpdbg"
 
@@ -33,22 +30,23 @@ IUSE="${IUSE}
 	${SAPIS/cli/+cli}
 	threads"
 
-IUSE="${IUSE} acl argon2 bcmath berkdb bzip2 calendar cdb cjk
-	coverage +ctype curl debug
+IUSE="${IUSE} acl apparmor argon2 avif bcmath berkdb bzip2 calendar
+	cdb cjk coverage +ctype curl debug
 	enchant exif ffi +fileinfo +filter firebird
 	+flatfile ftp gd gdbm gmp +iconv imap inifile
-	intl iodbc ipv6 +jit +json kerberos ldap ldap-sasl libedit lmdb
+	intl iodbc ipv6 +jit kerberos ldap ldap-sasl libedit lmdb
 	mhash mssql mysql mysqli nls
 	oci8-instant-client odbc +opcache pcntl pdo +phar +posix postgres qdbm
 	readline selinux +session session-mm sharedmem
-	+simplexml snmp soap sockets sodium spell sqlite ssl ssl-compat
+	+simplexml snmp soap sockets sodium spell sqlite ssl
 	sysvipc systemd test tidy +tokenizer tokyocabinet truetype unicode webp
-	+xml xmlreader xmlwriter xmlrpc xpm xslt zip zlib"
+	+xml xmlreader xmlwriter xpm xslt zip zlib"
 
 # Without USE=readline or libedit, the interactive "php -a" CLI will hang.
 # The Oracle instant client provides its own incompatible ldap library.
 REQUIRED_USE="
 	|| ( cli cgi fpm apache2 embed phpdbg )
+	avif? ( gd zlib )
 	cli? ( ^^ ( readline libedit ) )
 	!cli? ( ?? ( readline libedit ) )
 	truetype? ( gd zlib )
@@ -59,7 +57,6 @@ REQUIRED_USE="
 	gd? ( zlib )
 	simplexml? ( xml )
 	soap? ( xml )
-	xmlrpc? ( xml iconv )
 	xmlreader? ( xml )
 	xmlwriter? ( xml )
 	xslt? ( xml )
@@ -78,17 +75,19 @@ RESTRICT="!test? ( test )"
 # the ./configure script. Other versions *work*, but we need to stick to
 # the ones that can be detected to avoid a repeat of bug #564824.
 COMMON_DEPEND="
-	>=app-eselect/eselect-php-0.9.1[apache2?,fpm?]
+	>=app-eselect/eselect-php-0.9.7[apache2?,fpm?]
 	>=dev-libs/libpcre2-10.30[jit?,unicode]
-	fpm? ( acl? ( sys-apps/acl ) )
+	virtual/libcrypt:=
+	fpm? ( acl? ( sys-apps/acl ) apparmor? ( sys-libs/libapparmor ) )
 	apache2? ( www-servers/apache[apache2_modules_unixd(+),threads=] )
 	argon2? ( app-crypt/argon2:= )
-	berkdb? ( || (  sys-libs/db:5.3 sys-libs/db:4.8 ) )
+	avif? ( media-libs/libavif:= )
+	berkdb? ( || (	sys-libs/db:5.3 sys-libs/db:4.8 ) )
 	bzip2? ( app-arch/bzip2:0= )
 	cdb? ( || ( dev-db/cdb dev-db/tinycdb ) )
 	coverage? ( dev-util/lcov )
-	curl? ( >=net-misc/curl-7.10.5 )
-	enchant? ( <app-text/enchant-2.0:0 )
+	curl? ( >=net-misc/curl-7.29.0 )
+	enchant? ( app-text/enchant:2 )
 	ffi? ( >=dev-libs/libffi-3.0.11:= )
 	firebird? ( dev-db/firebird )
 	gd? ( media-libs/libjpeg-turbo:0= media-libs/libpng:0= )
@@ -106,7 +105,7 @@ COMMON_DEPEND="
 	nls? ( sys-devel/gettext )
 	oci8-instant-client? ( dev-db/oracle-instantclient[sdk] )
 	odbc? ( iodbc? ( dev-db/libiodbc ) !iodbc? ( >=dev-db/unixODBC-1.8.13 ) )
-	postgres? ( dev-db/postgresql:* )
+	postgres? ( >=dev-db/postgresql-9.1:* )
 	qdbm? ( dev-db/qdbm )
 	readline? ( sys-libs/readline:0= )
 	session-mm? ( dev-libs/mm )
@@ -114,18 +113,20 @@ COMMON_DEPEND="
 	sodium? ( dev-libs/libsodium:=[-minimal(-)] )
 	spell? ( >=app-text/aspell-0.50 )
 	sqlite? ( >=dev-db/sqlite-3.7.6.3 )
-	ssl? ( ssl-compat? ( dev-libs/openssl-compat:1.1.1 ) !ssl-compat? ( <dev-libs/openssl-3.0:= ) )
+	ssl? ( >=dev-libs/openssl-1.0.2:0= )
 	tidy? ( app-text/htmltidy )
 	tokyocabinet? ( dev-db/tokyocabinet )
 	truetype? ( =media-libs/freetype-2* )
 	unicode? ( dev-libs/oniguruma:= )
 	webp? ( media-libs/libwebp:0= )
-	xml? ( >=dev-libs/libxml2-2.7.6 )
+	xml? ( >=dev-libs/libxml2-2.9.0 )
 	xpm? ( x11-libs/libXpm )
 	xslt? ( dev-libs/libxslt )
 	zip? ( >=dev-libs/libzip-1.2.0:= )
 	zlib? ( >=sys-libs/zlib-1.2.0.4:0= )
 "
+
+IDEPEND=">=app-eselect/eselect-php-0.9.7[apache2?,fpm?]"
 
 RDEPEND="${COMMON_DEPEND}
 	virtual/mta
@@ -138,7 +139,6 @@ RDEPEND="${COMMON_DEPEND}
 # have an incompatible version installed. See bug 593278.
 DEPEND="${COMMON_DEPEND}
 	app-arch/xz-utils
-	ssl? ( !ssl-compat? ( <dev-libs/openssl-3.0:= ) ssl-compat? ( dev-libs/openssl-compat-headers:1.1.1 ) )
 	>=sys-devel/bison-3.0.1"
 
 BDEPEND="virtual/pkgconfig"
@@ -146,12 +146,24 @@ BDEPEND="virtual/pkgconfig"
 PHP_MV="$(ver_cut 1)"
 
 PATCHES=(
-	"${FILESDIR}"/php-iodbc-header-location.patch
-	"${FILESDIR}"/bug81656-gcc-11.patch
-	"${FILESDIR}"/php-7.4.33-CVE-2022-31631.patch
-	"${FILESDIR}"/php-7.4.33-CVE-2023-0567.patch
-	"${FILESDIR}"/php-7.4.33-CVE-2023-0568.patch
-	"${FILESDIR}"/php-7.4.33-CVE-2023-0662.patch
+	"${FILESDIR}/php-iodbc-header-location.patch"
+	"${FILESDIR}/php-capstone-optional.patch"
+	"${FILESDIR}/php-8.1.27-implicit-decls.patch"
+	"${FILESDIR}/fix-musl-llvm.patch"
+	"${FILESDIR}/php-8.1.29-gcc14-intl.patch"
+)
+
+# ARM/Windows functions that are expected to be undefined.
+QA_CONFIG_IMPL_DECL_SKIP=(
+	__crc32d
+	_controlfp
+	_controlfp_s
+)
+
+# Functions from alternate iconv implementations (bug 925268)
+QA_CONFIG_IMPL_DECL_SKIP+=(
+	iconv_ccs_init
+	cstoccsid
 )
 
 php_install_ini() {
@@ -227,15 +239,30 @@ src_prepare() {
 		configure main/php_config.h.in || die
 	eautoconf --force
 	eautoheader
+
+	# Remove false positive test failures
+	# stream_isatty fails due to portage redirects
+	# curl tests here fail for network sandbox issues
+	# session tests here fail because we set the session directory to $T
+	rm tests/output/stream_isatty_err.phpt \
+	   tests/output/stream_isatty_out-err.phpt \
+	   tests/output/stream_isatty_out.phpt \
+	   ext/curl/tests/bug76675.phpt \
+	   ext/curl/tests/bug77535.phpt \
+	   ext/curl/tests/curl_error_basic.phpt \
+	   ext/session/tests/bug74514.phpt \
+	   ext/session/tests/bug74936.phpt \
+	   ext/fileinfo/tests/bug78987.phpt || die
 }
 
 src_configure() {
-	filter-lto # bug 855644
-
 	addpredict /usr/share/snmp/mibs/.index #nowarn
 	addpredict /var/lib/net-snmp/mib_indexes #nowarn
 
 	PHP_DESTDIR="${EPREFIX}/usr/$(get_libdir)/php${SLOT}"
+
+	# https://bugs.gentoo.org/866683, https://bugs.gentoo.org/913527
+	filter-lto
 
 	# The php-fpm config file wants localstatedir to be ${EPREFIX}/var
 	# and not the Gentoo default ${EPREFIX}/var/lib. See bug 572002.
@@ -248,11 +275,17 @@ src_configure() {
 		--localstatedir="${EPREFIX}/var"
 		--without-pear
 		--without-valgrind
-		$(use_enable threads maintainer-zts)
+		$(use_enable threads zts)
 	)
 
+	# The slotted man/info pages will be missed by the default list of
+	# docompress paths.
+	docompress "${PHP_DESTDIR}/man" "${PHP_DESTDIR}/info"
+
 	our_conf+=(
+		$(use_with apparmor fpm-apparmor)
 		$(use_with argon2 password-argon2 "${EPREFIX}/usr")
+		$(use_with avif)
 		$(use_enable bcmath)
 		$(use_with bzip2 bz2 "${EPREFIX}/usr")
 		$(use_enable calendar)
@@ -273,7 +306,6 @@ src_configure() {
 			$(use elibc_glibc || use elibc_musl || echo "${EPREFIX}/usr"))
 		$(use_enable intl)
 		$(use_enable ipv6)
-		$(use_enable json)
 		$(use_with kerberos)
 		$(use_with xml libxml)
 		$(use_enable unicode mbstring)
@@ -300,7 +332,6 @@ src_configure() {
 		$(use_enable xml)
 		$(use_enable xmlreader)
 		$(use_enable xmlwriter)
-		$(use_with xmlrpc)
 		$(use_with xslt xsl)
 		$(use_with zip)
 		$(use_with zlib zlib "${EPREFIX}/usr")
@@ -353,10 +384,7 @@ src_configure() {
 	fi
 
 	# MySQL support
-	local mysqllib="mysqlnd"
-	local mysqlilib="mysqlnd"
-
-	our_conf+=( $(use_with mysqli mysqli "${mysqlilib}") )
+	our_conf+=( $(use_with mysqli mysqli "mysqlnd") )
 
 	local mysqlsock="${EPREFIX}/var/run/mysqld/mysqld.sock"
 	if use mysql || use mysqli ; then
@@ -391,7 +419,7 @@ src_configure() {
 	if use pdo ; then
 		our_conf+=(
 			$(use_with mssql pdo-dblib "${EPREFIX}/usr")
-			$(use_with mysql pdo-mysql "${mysqllib}")
+			$(use_with mysql pdo-mysql "mysqlnd")
 			$(use_with postgres pdo-pgsql)
 			$(use_with sqlite pdo-sqlite)
 			$(use_with firebird pdo-firebird "${EPREFIX}/usr")
@@ -426,8 +454,6 @@ src_configure() {
 	# Fixes bug #14067.
 	# Changed order to run it in reverse for bug #32022 and #12021.
 	replace-cpu-flags "k6*" "i586"
-
-	use ssl-compat && append-flags "-I/usr/include/openssl-1.1.1u/"
 
 	# Cache the ./configure test results between SAPIs.
 	our_conf+=( --cache-file="${T}/config.cache" )
@@ -487,9 +513,9 @@ src_configure() {
 		# (the common args) and $sapi_conf (the SAPI-specific args).
 		local myeconfargs=( "${our_conf[@]}" )
 		myeconfargs+=( "${sapi_conf[@]}" )
+
 		pushd "${BUILD_DIR}" > /dev/null || die
 		econf "${myeconfargs[@]}"
-		sed -e "s/-lssl -lcrypto/-l:libssl.so.1.1 -l:libcrypto.so.1.1/g" -e "s/-lssl/-l:libssl.so.1.1/g" -i Makefile
 		popd > /dev/null || die
 	done
 }
@@ -547,7 +573,7 @@ src_install() {
 				# We're specifically not using emake install-sapi as libtool
 				# may cause unnecessary relink failures (see bug #351266)
 				insinto "${PHP_DESTDIR#${EPREFIX}}/apache2/"
-				newins ".libs/libphp${PHP_MV}$(get_libname)" \
+				newins ".libs/libphp$(get_libname)" \
 					   "libphp${PHP_MV}$(get_libname)"
 				keepdir "/usr/$(get_libdir)/apache2/modules"
 			else
@@ -570,7 +596,7 @@ src_install() {
 						source="sapi/fpm/php-fpm"
 						;;
 					embed)
-						source="libs/libphp${PHP_MV}$(get_libname)"
+						source="libs/libphp$(get_libname)"
 						;;
 					phpdbg)
 						source="sapi/phpdbg/phpdbg"
@@ -645,7 +671,7 @@ src_test() {
 		export TEST_PHPDBG_EXECUTABLE="${WORKDIR}/sapis-build/phpdbg/sapi/phpdbg/phpdbg"
 	fi
 
-	REPORT_EXIT_STATUS=1 "${TEST_PHP_EXECUTABLE}" -n  -d \
+	SKIP_ONLINE_TESTS=1 REPORT_EXIT_STATUS=1 "${TEST_PHP_EXECUTABLE}" -n  -d \
 					  "session.save_path=${T}" \
 					  "${WORKDIR}/sapis-build/cli/run-tests.php" -n -q -d \
 					  "session.save_path=${T}"
